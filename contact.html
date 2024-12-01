@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Paramathma Stays</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
     <style>
         .content-wrapper {
             min-height: calc(100vh - 64px - 200px); /* Adjust based on header and footer height */
@@ -17,7 +20,7 @@
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100">
     <!-- Include Header -->
-    <div id="header-placeholder" class="fixed top-0 left-0 right-0 z-50"></div>
+    <div id="header"></div>
 
     <!-- Main Content -->
     <div class="content-wrapper w-full flex flex-col justify-center py-8 px-4">
@@ -111,7 +114,7 @@
         // Load header and footer
         fetch('components/header.html')
             .then(response => response.text())
-            .then(data => document.getElementById('header-placeholder').innerHTML = data);
+            .then(data => document.getElementById('header').innerHTML = data);
 
         fetch('components/footer.html')
             .then(response => response.text())
