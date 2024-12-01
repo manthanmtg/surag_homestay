@@ -93,97 +93,189 @@ function generateInvoice() {
         creator: 'Surag Homestay'
     });
 
-    // Header
-    doc.setFontSize(24);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SURAG HOMESTAY', 105, 20, { align: 'center' });
-    
-    doc.setFontSize(16);
-    doc.text('INVOICE', 105, 30, { align: 'center' });
-
-    // Invoice details
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    
-    // Left side details
-    doc.text('Bill To:', 20, 45);
-    doc.setFont('helvetica', 'bold');
-    doc.text(guestName, 20, 50);
-    doc.setFont('helvetica', 'normal');
-    doc.text(guestAddress, 20, 55);
-
-    // Right side details
-    doc.text(`Invoice #: ${new Date().getTime().toString().slice(-6)}`, 140, 45);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 140, 50);
-
-    // Stay Details Table
-    doc.autoTable({
-        startY: 65,
-        head: [['Stay Details', '']],
-        body: [
-            ['Check-in Date', checkInDate.toLocaleDateString()],
-            ['Check-out Date', checkOutDate.toLocaleDateString()],
-            ['Number of Nights', nights.toString()],
-            ['Number of Guests', numGuests.toString()],
-            ['Rate per Person per Day', `₹${ratePerPerson.toFixed(2)}`],
-            ['Calculation', `${nights} nights × ${numGuests} guests × ₹${ratePerPerson.toFixed(2)}`],
-            ['Stay Total', `₹${stayTotal.toFixed(2)}`]
-        ],
-        theme: 'grid',
-        headStyles: { fillColor: [66, 66, 66] },
-        styles: { fontSize: 10 },
+    // Define styles
+    const tableStyle = {
+        theme: 'plain',
+        styles: {
+            fontSize: 9,
+            cellPadding: 4,
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1
+        },
+        headStyles: {
+            fillColor: [240, 240, 240],
+            textColor: [0, 0, 0],
+            fontSize: 9,
+            fontStyle: 'bold',
+            halign: 'left'
+        },
         columnStyles: {
-            0: { cellWidth: 80 },
-            1: { cellWidth: 70 }
+            amount: { halign: 'right' }
+        }
+    };
+
+    // Header
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SURAG HOMESTAY', 20, 15);
+    
+    // Contact Info
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Surag Homestay, Madikeri, Coorg', 20, 20);
+    doc.text('Phone: +91 1234567890', 20, 24);
+
+    // Invoice Title
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INVOICE', 150, 15);
+    
+    // Invoice Details
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Invoice No: INV-${new Date().getTime().toString().slice(-6)}`, 150, 20);
+    doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 150, 24);
+
+    // Separator Line
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.1);
+    doc.line(20, 28, 190, 28);
+
+    // Bill To Section
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text('BILL TO:', 20, 35);
+    doc.setFont('helvetica', 'normal');
+    doc.text(guestName, 20, 40);
+    doc.text(guestAddress, 20, 44);
+
+    // Stay Details in a more compact table
+    const stayDetails = [
+        ['Period', `${checkInDate.toLocaleDateString('en-IN')} to ${checkOutDate.toLocaleDateString('en-IN')} (${nights} nights)`],
+        ['Guests', `${numGuests} person(s)`],
+        ['Rate', `₹${ratePerPerson.toLocaleString('en-IN')} per person per night`]
+    ];
+
+    doc.autoTable({
+        startY: 50,
+        head: [['DESCRIPTION', 'AMOUNT (₹)']],
+        body: [
+            [`Stay Charges (${nights} nights × ${numGuests} guests × ₹${ratePerPerson.toLocaleString('en-IN')})`, 
+             stayTotal.toLocaleString('en-IN')]
+        ],
+        ...tableStyle,
+        columnStyles: {
+            0: { cellWidth: 120 },
+            1: { cellWidth: 50, halign: 'right' }
         }
     });
 
-    // Additional Expenses Table
+    let currentY = doc.lastAutoTable.finalY;
+
+    // Additional Expenses Table (if any)
     if (additionalExpenses.length > 0) {
         const expenseData = additionalExpenses.map(exp => [
             exp.description,
-            `₹${exp.amount.toFixed(2)}`
+            exp.amount.toLocaleString('en-IN')
         ]);
 
         doc.autoTable({
-            startY: doc.lastAutoTable.finalY + 10,
-            head: [['Additional Expenses', 'Amount']],
+            startY: currentY,
             body: expenseData,
-            theme: 'grid',
-            headStyles: { fillColor: [66, 66, 66] },
-            styles: { fontSize: 10 },
+            ...tableStyle,
             columnStyles: {
-                0: { cellWidth: 80 },
-                1: { cellWidth: 70 }
+                0: { cellWidth: 120 },
+                1: { cellWidth: 50, halign: 'right' }
             }
         });
+        currentY = doc.lastAutoTable.finalY;
     }
 
-    // Total
+    // Total Section
     doc.autoTable({
-        startY: doc.lastAutoTable.finalY + 10,
-        head: [['', '']],
+        startY: currentY,
         body: [
-            ['Stay Charges', `₹${stayTotal.toFixed(2)}`],
-            ['Additional Charges', `₹${additionalTotal.toFixed(2)}`],
-            ['Grand Total', `₹${grandTotal.toFixed(2)}`]
+            ['Sub Total', stayTotal.toLocaleString('en-IN')],
+            ['Additional Charges', additionalTotal.toLocaleString('en-IN')],
+            ['Total Amount', grandTotal.toLocaleString('en-IN')]
         ],
-        theme: 'grid',
-        headStyles: { fillColor: [255, 255, 255] },
-        styles: { fontSize: 10 },
+        ...tableStyle,
+        styles: {
+            ...tableStyle.styles,
+            fontSize: 9,
+            fontStyle: 'bold'
+        },
         columnStyles: {
-            0: { cellWidth: 80, fontStyle: 'bold' },
-            1: { cellWidth: 70 }
+            0: { cellWidth: 120 },
+            1: { cellWidth: 50, halign: 'right' }
         }
     });
 
-    // Footer
-    const footerY = doc.lastAutoTable.finalY + 20;
-    doc.setFontSize(10);
-    doc.text('Thank you for choosing Surag Homestay!', 105, footerY, { align: 'center' });
+    // Terms and Notes
+    currentY = doc.lastAutoTable.finalY + 10;
     doc.setFontSize(8);
-    doc.text('This is a computer generated invoice.', 105, footerY + 5, { align: 'center' });
+    doc.setFont('helvetica', 'bold');
+    doc.text('Terms & Conditions:', 20, currentY);
+    doc.setFont('helvetica', 'normal');
+    currentY += 4;
+    doc.text('1. Check-in time: 12:00 PM, Check-out time: 11:00 AM', 20, currentY);
+    currentY += 4;
+    doc.text('2. This is a computer generated invoice.', 20, currentY);
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.text('Thank you for choosing Surag Homestay!', 105, 280, { align: 'center' });
 
     // Save PDF
-    doc.save(`invoice_${guestName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
+    doc.save(`Surag_Homestay_Invoice_${guestName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
+}
+
+function generateTestInvoice() {
+    // Generate fake data
+    const fakeGuestName = faker.name.findName();
+    const fakeAddress = `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`;
+    
+    // Random dates within next 30 days
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 15)); // Random start within next 15 days
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + Math.floor(Math.random() * 5) + 1); // Random 1-5 nights stay
+    
+    // Random number of guests and rate
+    const numGuests = Math.floor(Math.random() * 4) + 1; // 1-4 guests
+    const ratePerPerson = Math.floor(Math.random() * 1000) + 1500; // 1500-2500 rate
+    
+    // Generate 1-3 random additional expenses
+    const numExpenses = Math.floor(Math.random() * 3) + 1;
+    const additionalExpenses = [];
+    const expenseTypes = ['Food Charges', 'Activity Charges', 'Transportation', 'Extra Bed', 'Laundry', 'Guide Service'];
+    
+    for (let i = 0; i < numExpenses; i++) {
+        additionalExpenses.push({
+            description: expenseTypes[Math.floor(Math.random() * expenseTypes.length)],
+            amount: Math.floor(Math.random() * 1000) + 500 // 500-1500 for additional expenses
+        });
+    }
+
+    // Set form values for preview
+    document.getElementById('guestName').value = fakeGuestName;
+    document.getElementById('guestAddress').value = fakeAddress;
+    document.getElementById('checkInDate').value = startDate.toISOString().split('T')[0];
+    document.getElementById('checkOutDate').value = endDate.toISOString().split('T')[0];
+    document.getElementById('numGuests').value = numGuests;
+    document.getElementById('ratePerPerson').value = ratePerPerson;
+
+    // Clear existing additional expenses
+    document.getElementById('additionalExpenses').innerHTML = '';
+    
+    // Add fake additional expenses
+    additionalExpenses.forEach(exp => {
+        addExpenseRow();
+        const lastRow = document.getElementById(`expense-row-${expenseRowCount-1}`);
+        lastRow.querySelector('input[type="text"]').value = exp.description;
+        lastRow.querySelector('input[type="number"]').value = exp.amount;
+    });
+
+    // Generate the invoice
+    generateInvoice();
 }
