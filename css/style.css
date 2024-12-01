@@ -1,0 +1,57 @@
+/* Global Styles */
+body {
+    padding-top: 56px;
+}
+
+/* Header Styles */
+.page-header {
+    background-color: #343a40;
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Attractions Section */
+.attractions-section .card {
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.attractions-section .card:hover {
+    transform: translateY(-5px);
+}
+
+.attractions-section .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.attractions-section .distance {
+    color: #666;
+    margin-bottom: 0;
+}
+
+.attractions-section .distance i {
+    color: #007bff;
+    margin-right: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 3rem 0;
+    }
+    
+    .attractions-section .card-img-top {
+        height: 180px;
+    }
+}
