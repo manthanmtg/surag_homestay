@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Paramathma Stays</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/faq.js"></script>
+</head>
+<body class="font-sans">
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- FAQ Hero Section -->
+    <section class="relative py-20 bg-gray-900">
+        <div class="absolute inset-0">
+            <img src="assets/images/2.jpg" alt="FAQ Background" class="w-full h-full object-cover opacity-30">
+        </div>
+        <div class="relative container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4" data-aos="fade-up">Frequently Asked Questions</h1>
+                <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">Find answers to common questions about your stay with us</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div id="faq-container">
+                    <!-- FAQs will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4" data-aos="fade-up">Still have questions?</h2>
+            <p class="text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="100">We're here to help. Contact us for any additional information.</p>
+            <a href="contact.html" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors" data-aos="fade-up" data-aos-delay="200">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>
