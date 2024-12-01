@@ -17,54 +17,126 @@
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
     <script src="js/gallery.js" defer></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding-top: 64px; /* Height of the fixed header */
+        }
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            z-index: 50;
+            background: white;
+        }
+        .gallery-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #f9fafb;
+        }
+        .gallery-header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+        .gallery-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1.5rem 0;
+        }
+        .gallery-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .gallery-content::-webkit-scrollbar-track {
+            background: #e5e7eb;
+        }
+        .gallery-content::-webkit-scrollbar-thumb {
+            background-color: #4ade80;
+            border-radius: 20px;
+        }
+        #grid-view {
+            height: 100%;
+        }
+        .swiper-container {
+            height: 100%;
+        }
+        .swiper-slide img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+        #footer {
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
 </head>
-<body class="font-sans">
-    <!-- Header -->
-    <div id="header"></div>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div id="header"></div>
 
-    <!-- Gallery Header -->
-    <section class="relative py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center text-gray-900 mb-8" data-aos="fade-up">Our Gallery</h1>
-            <p class="text-lg text-center text-gray-600 mb-12" data-aos="fade-up" data-aos-delay="100">
-                Experience the beauty and serenity of our mountain retreat through our curated collection of images
-            </p>
-            
-            <!-- View Mode Toggle -->
-            <div class="flex justify-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="200">
-                <button id="scroll-mode" class="px-6 py-2 bg-green-600 text-white rounded-full flex items-center gap-2 hover:bg-green-700 transition-colors active">
-                    <i class="fas fa-arrows-up-down"></i>
-                    Scroll Mode
-                </button>
-                <button id="swipe-mode" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full flex items-center gap-2 hover:bg-gray-300 transition-colors">
-                    <i class="fas fa-arrows-left-right"></i>
-                    Swipe Mode
-                </button>
+        <!-- Gallery Container -->
+        <div class="gallery-container">
+            <!-- Gallery Header -->
+            <div class="gallery-header">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-2xl font-bold text-gray-900" data-aos="fade-up">Our Gallery</h1>
+                        <!-- Compact View Mode Toggle -->
+                        <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1" data-aos="fade-up">
+                            <button id="scroll-mode" class="p-2 rounded-md text-sm flex items-center gap-1 bg-green-600 text-white hover:bg-green-700 transition-colors">
+                                <i class="fas fa-th-large"></i>
+                                <span class="hidden sm:inline">Grid</span>
+                            </button>
+                            <button id="swipe-mode" class="p-2 rounded-md text-sm flex items-center gap-1 text-gray-700 hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-images"></i>
+                                <span class="hidden sm:inline">Slideshow</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Content -->
+            <div class="gallery-content">
+                <!-- Grid View -->
+                <div id="grid-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Gallery items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Swiper View -->
+                <div id="swiper-view" class="h-full hidden">
+                    <div class="swiper gallery-swiper h-full">
+                        <div class="swiper-wrapper">
+                            <!-- Swiper slides will be populated by JavaScript -->
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Gallery Grid View -->
-    <section id="grid-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Gallery items will be populated by JavaScript -->
-        </div>
-    </section>
-
-    <!-- Gallery Swiper View -->
-    <section id="swiper-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 hidden">
-        <div class="swiper gallery-swiper">
-            <div class="swiper-wrapper">
-                <!-- Swiper slides will be populated by JavaScript -->
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <div id="footer"></div>
+        <!-- Footer -->
+        <div id="footer"></div>
+    </div>
 
     <script>
         // Initialize AOS
