@@ -86,11 +86,11 @@ function generateInvoice() {
 
     // Set document properties
     doc.setProperties({
-        title: 'Surag Homestay Invoice',
+        title: 'Paramathma Stays Invoice',
         subject: 'Invoice for ' + guestName,
-        author: 'Surag Homestay',
+        author: 'Paramathma Stays',
         keywords: 'invoice, homestay',
-        creator: 'Surag Homestay'
+        creator: 'Paramathma Stays'
     });
 
     // Define styles
@@ -117,12 +117,12 @@ function generateInvoice() {
     // Header
     doc.setFontSize(16);
     doc.setFont('helvetica', 'bold');
-    doc.text('SURAG HOMESTAY', 20, 15);
+    doc.text('PARAMATHMA STAYS', 20, 15);
     
     // Contact Info
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text('Surag Homestay, Madikeri, Coorg', 20, 20);
+    doc.text('Paramathma Stays, Chikmagalur', 20, 20);
     doc.text('Phone: +91 1234567890', 20, 24);
 
     // Invoice Title
@@ -149,24 +149,18 @@ function generateInvoice() {
     doc.text(guestName, 20, 40);
     doc.text(guestAddress, 20, 44);
 
-    // Stay Details in a more compact table
-    const stayDetails = [
-        ['Period', `${checkInDate.toLocaleDateString('en-IN')} to ${checkOutDate.toLocaleDateString('en-IN')} (${nights} nights)`],
-        ['Guests', `${numGuests} person(s)`],
-        ['Rate', `₹${ratePerPerson.toLocaleString('en-IN')} per person per night`]
-    ];
-
+    // Stay Details Table
     doc.autoTable({
         startY: 50,
-        head: [['DESCRIPTION', 'AMOUNT (₹)']],
+        head: [['DESCRIPTION', 'AMOUNT']],
         body: [
-            [`Stay Charges (${nights} nights × ${numGuests} guests × ₹${ratePerPerson.toLocaleString('en-IN')})`, 
-             stayTotal.toLocaleString('en-IN')]
+            [`Stay Charges\n(${nights} nights × ${numGuests} guests × ₹${ratePerPerson.toLocaleString('en-IN')})`, 
+             `${stayTotal.toLocaleString('en-IN')}`]
         ],
         ...tableStyle,
         columnStyles: {
-            0: { cellWidth: 120 },
-            1: { cellWidth: 50, halign: 'right' }
+            0: { cellWidth: 140 },
+            1: { cellWidth: 30, halign: 'right' }
         }
     });
 
@@ -176,7 +170,7 @@ function generateInvoice() {
     if (additionalExpenses.length > 0) {
         const expenseData = additionalExpenses.map(exp => [
             exp.description,
-            exp.amount.toLocaleString('en-IN')
+            `${exp.amount.toLocaleString('en-IN')}`
         ]);
 
         doc.autoTable({
@@ -184,8 +178,8 @@ function generateInvoice() {
             body: expenseData,
             ...tableStyle,
             columnStyles: {
-                0: { cellWidth: 120 },
-                1: { cellWidth: 50, halign: 'right' }
+                0: { cellWidth: 140 },
+                1: { cellWidth: 30, halign: 'right' }
             }
         });
         currentY = doc.lastAutoTable.finalY;
@@ -195,19 +189,29 @@ function generateInvoice() {
     doc.autoTable({
         startY: currentY,
         body: [
-            ['Sub Total', stayTotal.toLocaleString('en-IN')],
-            ['Additional Charges', additionalTotal.toLocaleString('en-IN')],
-            ['Total Amount', grandTotal.toLocaleString('en-IN')]
+            ['Sub Total:', `${stayTotal.toLocaleString('en-IN')}`],
+            ['Additional Charges:', `${additionalTotal.toLocaleString('en-IN')}`],
+            ['Total Amount:', `${grandTotal.toLocaleString('en-IN')}`]
         ],
         ...tableStyle,
         styles: {
             ...tableStyle.styles,
-            fontSize: 9,
+            fontSize: 10,
             fontStyle: 'bold'
         },
         columnStyles: {
-            0: { cellWidth: 120 },
-            1: { cellWidth: 50, halign: 'right' }
+            0: { cellWidth: 140, fillColor: [245, 245, 245] },
+            1: { cellWidth: 30, halign: 'right', fillColor: [245, 245, 245] }
+        },
+        didDrawCell: function(data) {
+            // Add rupee symbol in front of amounts in the second column
+            if (data.column.index === 1 && data.cell.text.length > 0) {
+                const x = data.cell.x + 2;
+                const y = data.cell.y + data.cell.height / 2 + 3;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.text('₹', x, y);
+            }
         }
     });
 
@@ -224,10 +228,10 @@ function generateInvoice() {
     
     // Footer
     doc.setFontSize(8);
-    doc.text('Thank you for choosing Surag Homestay!', 105, 280, { align: 'center' });
+    doc.text('Thank you for choosing Paramathma Stays!', 105, 280, { align: 'center' });
 
     // Save PDF
-    doc.save(`Surag_Homestay_Invoice_${guestName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
+    doc.save(`Paramathma_Stays_Invoice_${guestName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
 }
 
 function generateTestInvoice() {
