@@ -13,8 +13,15 @@
     <script src="js/components.js"></script>
     <style>
         .content-wrapper {
-            min-height: calc(100vh - 64px - 200px); /* Adjust based on header and footer height */
-            margin-top: 64px; /* Height of header */
+            min-height: calc(100vh - 64px - 200px);
+            padding-top: 80px; /* Increased top padding for better spacing */
+        }
+        
+        /* Custom styles for better mobile experience */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding-top: 64px;
+            }
         }
     </style>
 </head>
@@ -23,62 +30,62 @@
     <div id="header"></div>
 
     <!-- Main Content -->
-    <div class="content-wrapper w-full flex flex-col justify-center py-8 px-4">
+    <div class="content-wrapper w-full flex flex-col justify-start py-8 px-4">
         <div class="container max-w-6xl mx-auto">
-            <!-- Mobile Title -->
-            <div class="md:hidden text-center mb-6">
-                <h1 class="text-3xl font-bold text-gray-800">Contact Us</h1>
-                <p class="text-gray-600 mt-2">Get in touch with us</p>
+            <!-- Page Title - Visible on all screens -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Contact Us</h1>
+                <p class="text-gray-600">Get in touch with us</p>
             </div>
 
             <!-- Content Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 <!-- Left Column - Contact Details -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 backdrop-blur-lg bg-white/90">
-                    <div class="space-y-6">
+                    <div class="space-y-8">
                         <!-- Owner Details -->
                         <div class="text-center md:text-left">
-                            <h2 class="text-xl md:text-3xl font-bold text-gray-800 mb-2">Meet Your Host</h2>
-                            <div class="flex items-center justify-center md:justify-start space-x-3 md:space-x-4 mb-2 md:mb-4">
-                                <div class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-green-600 flex items-center justify-center">
-                                    <i class="fas fa-user text-xl md:text-3xl text-white"></i>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Meet Your Host</h2>
+                            <div class="flex items-center justify-center md:justify-start space-x-4">
+                                <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-green-600 flex items-center justify-center">
+                                    <i class="fas fa-user text-2xl md:text-3xl text-white"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg md:text-xl font-semibold text-gray-800">Mr. Surag</h3>
-                                    <p class="text-sm md:text-base text-gray-600">Property Owner</p>
+                                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800">Mr. Surag</h3>
+                                    <p class="text-base md:text-lg text-gray-600">Property Owner</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Contact Information -->
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-phone text-white"></i>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-lg text-white"></i>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-sm text-gray-600">Phone</p>
-                                    <a href="tel:+911234567890" class="text-base md:text-lg font-semibold text-gray-800 hover:text-green-600 truncate block">+91 1234567890</a>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-envelope text-white"></i>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-sm text-gray-600">Email</p>
-                                    <a href="mailto:surag@gmail.com" class="text-base md:text-lg font-semibold text-gray-800 hover:text-green-600 truncate block">surag@gmail.com</a>
+                                <div class="flex-grow">
+                                    <p class="text-sm font-medium text-gray-600">Phone</p>
+                                    <a href="tel:+911234567890" class="text-lg md:text-xl font-semibold text-gray-800 hover:text-green-600">+91 1234567890</a>
                                 </div>
                             </div>
 
-                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-map-marker-alt text-white"></i>
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-lg text-white"></i>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-sm text-gray-600">Location</p>
-                                    <p class="text-base md:text-lg font-semibold text-gray-800">123 Coffee Estate Road,<br>Chikmagalur, Karnataka</p>
+                                <div class="flex-grow">
+                                    <p class="text-sm font-medium text-gray-600">Email</p>
+                                    <a href="mailto:surag@gmail.com" class="text-lg md:text-xl font-semibold text-gray-800 hover:text-green-600 break-all">surag@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-lg text-white"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <p class="text-sm font-medium text-gray-600">Location</p>
+                                    <p class="text-lg md:text-xl font-semibold text-gray-800">123 Coffee Estate Road,<br>Chikmagalur, Karnataka</p>
                                 </div>
                             </div>
                         </div>
