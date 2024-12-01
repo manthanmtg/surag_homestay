@@ -1,0 +1,72 @@
+/* Custom styles beyond Tailwind */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Smooth transitions */
+.transition {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hero section gradient overlay */
+.hero-gradient {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+/* Custom animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Mobile menu transition */
+.mobile-menu-enter {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.mobile-menu-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.mobile-menu-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.mobile-menu-exit-active {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
