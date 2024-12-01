@@ -41,46 +41,49 @@
     <div class="invoice-form" id="invoiceForm">
         <h2 class="text-center mb-4">Invoice Generator</h2>
         <form id="generateInvoiceForm">
-            <div class="row">
+            <div class="row g-3">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Guest Name</label>
-                        <input type="text" class="form-control" id="guestName" required>
-                    </div>
+                    <label for="guestName" class="form-label">Guest Name</label>
+                    <input type="text" class="form-control" id="guestName" required>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Guest Address</label>
-                        <input type="text" class="form-control" id="guestAddress" required>
-                    </div>
+                    <label for="invoiceNumber" class="form-label">Invoice Number (Optional)</label>
+                    <input type="text" class="form-control" id="invoiceNumber">
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row g-3 mt-2">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Check-in Date</label>
-                        <input type="date" class="form-control" id="checkInDate" required>
-                    </div>
+                    <label for="guestAddress" class="form-label">Guest Address</label>
+                    <input type="text" class="form-control" id="guestAddress" required>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Check-out Date</label>
-                        <input type="date" class="form-control" id="checkOutDate" required>
-                    </div>
+                    <label for="stayType" class="form-label">Stay Type</label>
+                    <select class="form-select" id="stayType" required>
+                        <option value="Stay Only">Stay Only</option>
+                        <option value="Stay with Food">Stay with Food</option>
+                    </select>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row g-3 mt-2">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Number of Guests</label>
-                        <input type="number" class="form-control" id="numGuests" required min="1">
-                    </div>
+                    <label for="checkInDate" class="form-label">Check-in Date</label>
+                    <input type="date" class="form-control" id="checkInDate" required>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Rate per Person per Day</label>
-                        <input type="number" class="form-control" id="ratePerPerson" required min="0">
-                    </div>
+                    <label for="checkOutDate" class="form-label">Check-out Date</label>
+                    <input type="date" class="form-control" id="checkOutDate" required>
+                </div>
+            </div>
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label for="numGuests" class="form-label">Number of Guests</label>
+                    <input type="number" class="form-control" id="numGuests" required min="1">
+                </div>
+                <div class="col-md-6">
+                    <label for="ratePerPerson" class="form-label">Rate per Person per Day</label>
+                    <input type="number" class="form-control" id="ratePerPerson" required min="0">
                 </div>
             </div>
             <div class="mt-4">

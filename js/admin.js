@@ -71,7 +71,7 @@ function generateInvoice() {
     
     // Add logo
     const logoPath = '../assets/puneet.jpg';  // Update this path to your actual logo
-    doc.addImage(logoPath, 'JPG', 20, 10, 15, 15);  // Moved right to 20
+    doc.addImage(logoPath, 'JPG', 20, 10, 12, 15);  // Moved right to 20
 
     // Add homestay name next to logo
     doc.setFontSize(20);
@@ -88,11 +88,13 @@ function generateInvoice() {
     const checkOutDate = new Date(document.getElementById('checkOutDate').value);
     const numGuests = parseInt(document.getElementById('numGuests').value);
     const ratePerPerson = parseFloat(document.getElementById('ratePerPerson').value);
-    const additionalExpenses = getAdditionalExpenses();
+    const stayType = document.getElementById('stayType').value;
+    const invoiceNumber = document.getElementById('invoiceNumber').value;
 
     // Calculate number of nights and total
     const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
     const stayTotal = nights * numGuests * ratePerPerson;
+    const additionalExpenses = getAdditionalExpenses();
     const additionalTotal = additionalExpenses.reduce((sum, exp) => sum + exp.amount, 0);
     const grandTotal = stayTotal + additionalTotal;
 
@@ -134,7 +136,11 @@ function generateInvoice() {
     // Invoice Details
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Invoice No: INV-${new Date().getTime().toString().slice(-6)}`, 150, 20);
+    if (invoiceNumber) {
+        doc.text(`Invoice No: ${invoiceNumber}`, 150, 20);
+    } else {
+        doc.text(`Invoice No: INV-${new Date().getTime().toString().slice(-6)}`, 150, 20);
+    }
     doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 150, 24);
 
     // Separator Line
@@ -155,7 +161,7 @@ function generateInvoice() {
         startY: 50,
         head: [['DESCRIPTION', 'AMOUNT']],
         body: [
-            [`Stay Charges\n(${nights} nights × ${numGuests} guests × Rs.${ratePerPerson.toLocaleString('en-IN')})`, 
+            [`${stayType}\n(${nights} nights × ${numGuests} guests × Rs.${ratePerPerson.toLocaleString('en-IN')})`, 
              `Rs. ${stayTotal.toLocaleString('en-IN')}`]
         ],
         ...tableStyle,
