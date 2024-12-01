@@ -69,6 +69,18 @@ document.getElementById('generateInvoiceForm').addEventListener('submit', functi
 function generateInvoice() {
     const doc = new jsPDF();
     
+    // Add logo
+    const logoPath = '../assets/puneet.jpg';  // Update this path to your actual logo
+    doc.addImage(logoPath, 'JPG', 20, 10, 15, 15);  // Moved right to 20
+
+    // Add homestay name next to logo
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Paramathma Stays', 40, 20);  // Adjusted x to 40 to be next to logo, y to 20 to align with logo
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Chikmagalur', 40, 25);  // Adjusted x to match homestay name
+
     // Get form values
     const guestName = document.getElementById('guestName').value;
     const guestAddress = document.getElementById('guestAddress').value;
@@ -113,17 +125,6 @@ function generateInvoice() {
             amount: { halign: 'right' }
         }
     };
-
-    // Header
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    doc.text('PARAMATHMA STAYS', 20, 15);
-    
-    // Contact Info
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Paramathma Stays, Chikmagalur', 20, 20);
-    doc.text('Phone: +91 1234567890', 20, 24);
 
     // Invoice Title
     doc.setFontSize(12);
