@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Paramathma Stays</title>
+    <title>Contact - Paramathma Stays</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,111 +12,222 @@
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
     <style>
-        .content-wrapper {
-            min-height: calc(100vh - 64px - 200px);
-            padding-top: 80px; /* Increased top padding for better spacing */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
         }
-        
-        /* Custom styles for better mobile experience */
+
+        .page-wrapper {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1000;
+        }
+
+        .content-wrapper {
+            margin-top: 80px; /* Adjust based on your header height */
+            height: calc(100vh - 80px); /* Viewport height minus header height */
+            padding: 1rem;
+            background: #f3f4f6;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-bottom: 1rem;
+        }
+
+        .contact-section {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .map-section {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .contact-item {
+            transition: transform 0.2s;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+        }
+
         @media (max-width: 768px) {
+            html, body {
+                overflow: auto;
+                height: auto;
+            }
+
+            .page-wrapper {
+                height: auto;
+                min-height: 100vh;
+            }
+
             .content-wrapper {
-                padding-top: 64px;
+                height: auto;
+                margin-top: 80px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding-bottom: 1rem;
+                height: auto;
+            }
+
+            .contact-section,
+            .map-section {
+                height: auto;
+                overflow: visible;
+            }
+
+            .map-section {
+                height: 400px;
+            }
+
+            h1 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .contact-item {
+                font-size: 0.9rem;
+            }
+
+            .contact-item .font-semibold {
+                font-size: 1rem;
+            }
+
+            .p-8 {
+                padding: 1.5rem !important;
+            }
+
+            .space-y-6 > * + * {
+                margin-top: 1rem !important;
             }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100">
-    <!-- Include Header -->
-    <div id="header"></div>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <div id="header"></div>
 
-    <!-- Main Content -->
-    <div class="content-wrapper w-full flex flex-col justify-start py-8 px-4">
-        <div class="container max-w-6xl mx-auto">
-            <!-- Page Title - Visible on all screens -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Contact Us</h1>
-                <p class="text-gray-600">Get in touch with us</p>
-            </div>
-
-            <!-- Content Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                <!-- Left Column - Contact Details -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 backdrop-blur-lg bg-white/90">
-                    <div class="space-y-8">
-                        <!-- Owner Details -->
-                        <div class="text-center md:text-left">
-                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Meet Your Host</h2>
-                            <div class="flex items-center justify-center md:justify-start space-x-4">
-                                <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-green-600 flex items-center justify-center">
-                                    <i class="fas fa-user text-2xl md:text-3xl text-white"></i>
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <div class="p-8">
+                        <div class="max-w-md mx-auto">
+                            <h1 class="text-3xl font-bold mb-8 text-gray-800">Meet Your Host</h1>
+                            
+                            <!-- Contact Info -->
+                            <div class="space-y-6">
+                                <div class="contact-item flex items-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-xl text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-semibold text-lg">Mr. Surag</div>
+                                        <div class="text-gray-600">Property Owner</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800">Mr. Surag</h3>
-                                    <p class="text-base md:text-lg text-gray-600">Property Owner</p>
+
+                                <div class="contact-item flex items-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-phone text-xl text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-gray-600">Phone</div>
+                                        <a href="tel:+911234567890" class="font-semibold text-lg hover:text-green-600">
+                                            +91 1234567890
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-item flex items-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-envelope text-xl text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-gray-600">Email</div>
+                                        <a href="mailto:surag@gmail.com" class="font-semibold text-lg hover:text-green-600">
+                                            surag@gmail.com
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-item flex items-center p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-xl text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-gray-600">Address</div>
+                                        <div class="font-semibold text-lg">
+                                            123 Coffee Estate Road,<br>
+                                            Chikmagalur, Karnataka
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Contact Information -->
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-phone text-lg text-white"></i>
-                                </div>
-                                <div class="flex-grow">
-                                    <p class="text-sm font-medium text-gray-600">Phone</p>
-                                    <a href="tel:+911234567890" class="text-lg md:text-xl font-semibold text-gray-800 hover:text-green-600">+91 1234567890</a>
-                                </div>
+                            <!-- Social Links -->
+                            <div class="flex space-x-4 mt-8">
+                                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
                             </div>
-
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-envelope text-lg text-white"></i>
-                                </div>
-                                <div class="flex-grow">
-                                    <p class="text-sm font-medium text-gray-600">Email</p>
-                                    <a href="mailto:surag@gmail.com" class="text-lg md:text-xl font-semibold text-gray-800 hover:text-green-600 break-all">surag@gmail.com</a>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-map-marker-alt text-lg text-white"></i>
-                                </div>
-                                <div class="flex-grow">
-                                    <p class="text-sm font-medium text-gray-600">Location</p>
-                                    <p class="text-lg md:text-xl font-semibold text-gray-800">123 Coffee Estate Road,<br>Chikmagalur, Karnataka</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Social Links -->
-                        <div class="flex justify-center md:justify-start space-x-4 pt-4">
-                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
-                                <i class="fab fa-facebook"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column - Map -->
-                <div class="h-[300px] md:h-[500px] rounded-2xl overflow-hidden shadow-xl">
-                    <div id="map" class="w-full h-full"></div>
+                <!-- Map Section -->
+                <div class="map-section">
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <div id="footer-placeholder"></div>
     </div>
 
-    <!-- Include Footer -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Scripts -->
     <script>
         // Load header and footer
         fetch('components/header.html')
@@ -129,15 +240,24 @@
 
         // Initialize map
         document.addEventListener('DOMContentLoaded', function() {
-            const map = L.map('map').setView([13.100167, 75.634361], 13);
+            const map = L.map('map', {
+                zoomControl: true,
+                dragging: true,
+                scrollWheelZoom: true
+            }).setView([13.100167, 75.634361], 13);
+            
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: ' OpenStreetMap contributors'
             }).addTo(map);
 
-            // Add marker with custom popup
-            L.marker([13.3167, 75.7833]).addTo(map)
-                .bindPopup('<strong>Paramathma Stays</strong><br>Your perfect getaway in Chikmagalur')
-                .openPopup();
+            const marker = L.marker([13.3167, 75.7833]).addTo(map);
+            const popupContent = `
+                <div class="text-center p-2">
+                    <strong class="block">Paramathma Stays</strong>
+                    <span class="text-sm">Your perfect getaway</span>
+                </div>
+            `;
+            marker.bindPopup(popupContent).openPopup();
         });
     </script>
 </body>
