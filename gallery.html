@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Paramathma Stays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Swiper.js for horizontal scrolling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/gallery.js" defer></script>
+</head>
+<body class="font-sans">
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Gallery Header -->
+    <section class="relative py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center text-gray-900 mb-8" data-aos="fade-up">Our Gallery</h1>
+            <p class="text-lg text-center text-gray-600 mb-12" data-aos="fade-up" data-aos-delay="100">
+                Experience the beauty and serenity of our mountain retreat through our curated collection of images
+            </p>
+            
+            <!-- View Mode Toggle -->
+            <div class="flex justify-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                <button id="scroll-mode" class="px-6 py-2 bg-green-600 text-white rounded-full flex items-center gap-2 hover:bg-green-700 transition-colors active">
+                    <i class="fas fa-arrows-up-down"></i>
+                    Scroll Mode
+                </button>
+                <button id="swipe-mode" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full flex items-center gap-2 hover:bg-gray-300 transition-colors">
+                    <i class="fas fa-arrows-left-right"></i>
+                    Swipe Mode
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid View -->
+    <section id="grid-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Gallery Swiper View -->
+    <section id="swiper-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 hidden">
+        <div class="swiper gallery-swiper">
+            <div class="swiper-wrapper">
+                <!-- Swiper slides will be populated by JavaScript -->
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>
