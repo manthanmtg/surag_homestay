@@ -154,13 +154,18 @@ function generateInvoice() {
         startY: 50,
         head: [['DESCRIPTION', 'AMOUNT']],
         body: [
-            [`Stay Charges\n(${nights} nights × ${numGuests} guests × ₹${ratePerPerson.toLocaleString('en-IN')})`, 
-             `${stayTotal.toLocaleString('en-IN')}`]
+            [`Stay Charges\n(${nights} nights × ${numGuests} guests × Rs.${ratePerPerson.toLocaleString('en-IN')})`, 
+             `Rs. ${stayTotal.toLocaleString('en-IN')}`]
         ],
         ...tableStyle,
         columnStyles: {
-            0: { cellWidth: 140 },
-            1: { cellWidth: 30, halign: 'right' }
+            0: { cellWidth: 130 },
+            1: { cellWidth: 50, halign: 'right' }
+        },
+        margin: { left: 15, right: 15 },
+        styles: {
+            overflow: 'linebreak',
+            cellWidth: 'wrap'
         }
     });
 
@@ -170,7 +175,7 @@ function generateInvoice() {
     if (additionalExpenses.length > 0) {
         const expenseData = additionalExpenses.map(exp => [
             exp.description,
-            `${exp.amount.toLocaleString('en-IN')}`
+            `Rs. ${exp.amount.toLocaleString('en-IN')}`
         ]);
 
         doc.autoTable({
@@ -178,41 +183,42 @@ function generateInvoice() {
             body: expenseData,
             ...tableStyle,
             columnStyles: {
-                0: { cellWidth: 140 },
-                1: { cellWidth: 30, halign: 'right' }
+                0: { cellWidth: 130 },
+                1: { cellWidth: 50, halign: 'right' }
+            },
+            margin: { left: 15, right: 15 },
+            styles: {
+                overflow: 'linebreak',
+                cellWidth: 'wrap'
             }
         });
         currentY = doc.lastAutoTable.finalY;
     }
 
+    // Add some spacing before totals
+    currentY += 5;
+
     // Total Section
     doc.autoTable({
         startY: currentY,
         body: [
-            ['Sub Total:', `${stayTotal.toLocaleString('en-IN')}`],
-            ['Additional Charges:', `${additionalTotal.toLocaleString('en-IN')}`],
-            ['Total Amount:', `${grandTotal.toLocaleString('en-IN')}`]
+            ['Sub Total:', `Rs. ${stayTotal.toLocaleString('en-IN')}`],
+            ['Additional Charges:', `Rs. ${additionalTotal.toLocaleString('en-IN')}`],
+            ['Total Amount:', `Rs. ${grandTotal.toLocaleString('en-IN')}`]
         ],
         ...tableStyle,
         styles: {
             ...tableStyle.styles,
             fontSize: 10,
-            fontStyle: 'bold'
+            fontStyle: 'bold',
+            overflow: 'linebreak',
+            cellWidth: 'wrap'
         },
         columnStyles: {
-            0: { cellWidth: 140, fillColor: [245, 245, 245] },
-            1: { cellWidth: 30, halign: 'right', fillColor: [245, 245, 245] }
+            0: { cellWidth: 130, fillColor: [245, 245, 245] },
+            1: { cellWidth: 50, halign: 'right', fillColor: [245, 245, 245] }
         },
-        didDrawCell: function(data) {
-            // Add rupee symbol in front of amounts in the second column
-            if (data.column.index === 1 && data.cell.text.length > 0) {
-                const x = data.cell.x + 2;
-                const y = data.cell.y + data.cell.height / 2 + 3;
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(10);
-                doc.text('₹', x, y);
-            }
-        }
+        margin: { left: 15, right: 15 }
     });
 
     // Terms and Notes
