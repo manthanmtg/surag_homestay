@@ -181,17 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize gallery with images
 function initializeGallery() {
     // Populate grid view
-    const gridContainer = gridView.querySelector('.grid-cols-1');
+    const gridContainer = gridView.querySelector('.grid');
     gridContainer.innerHTML = galleryImages.map(image => `
-        <div class="group relative overflow-hidden rounded-xl shadow-lg transition-transform hover:scale-[1.02]" 
+        <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl" 
              data-aos="fade-up">
-            <img src="${image.url}" 
-                 alt="${image.title}" 
-                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="relative pb-[75%]">
+                <img src="${image.url}" 
+                     alt="${image.title}" 
+                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div class="absolute bottom-0 p-6 text-white">
-                    <h3 class="text-xl font-bold mb-2">${image.title}</h3>
-                    <p class="text-sm opacity-90">${image.description}</p>
+                <div class="absolute bottom-0 p-4">
+                    <h3 class="text-white text-lg font-semibold mb-1">${image.title}</h3>
+                    <p class="text-white/90 text-sm">${image.description}</p>
                 </div>
             </div>
         </div>
