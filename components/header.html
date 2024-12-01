@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="fixed w-full bg-white/95 backdrop-blur-md shadow-lg z-50 transition-all duration-300">
+<nav class="fixed w-full bg-white/95 backdrop-blur-md shadow-lg z-[1000] transition-all duration-300">
     <!-- Gradient border at top -->
     <div class="h-1 bg-gradient-to-r from-green-400 via-emerald-500 to-green-400"></div>
     
@@ -53,7 +53,7 @@
     </div>
     
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full shadow-lg">
         <div class="px-4 py-2 space-y-1 max-w-[1280px] mx-auto">
             <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:text-gray-900 rounded-lg transition-all duration-200">Home</a>
             <a href="about.html" class="block px-4 py-2 text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:text-gray-900 rounded-lg transition-all duration-200">About</a>
@@ -64,3 +64,20 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        
+        if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+</script>
