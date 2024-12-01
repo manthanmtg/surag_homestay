@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Paramathma Stays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <style>
+        .content-wrapper {
+            min-height: calc(100vh - 64px - 200px); /* Adjust based on header and footer height */
+            margin-top: 64px; /* Height of header */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Include Header -->
+    <div id="header-placeholder" class="fixed top-0 left-0 right-0 z-50"></div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper w-full flex flex-col justify-center py-8 px-4">
+        <div class="container max-w-6xl mx-auto">
+            <!-- Mobile Title -->
+            <div class="md:hidden text-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">Contact Us</h1>
+                <p class="text-gray-600 mt-2">Get in touch with us</p>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <!-- Left Column - Contact Details -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 backdrop-blur-lg bg-white/90">
+                    <div class="space-y-6">
+                        <!-- Owner Details -->
+                        <div class="text-center md:text-left">
+                            <h2 class="text-xl md:text-3xl font-bold text-gray-800 mb-2">Meet Your Host</h2>
+                            <div class="flex items-center justify-center md:justify-start space-x-3 md:space-x-4 mb-2 md:mb-4">
+                                <div class="w-12 h-12 md:w-20 md:h-20 rounded-full bg-green-600 flex items-center justify-center">
+                                    <i class="fas fa-user text-xl md:text-3xl text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg md:text-xl font-semibold text-gray-800">Mr. Surag</h3>
+                                    <p class="text-sm md:text-base text-gray-600">Property Owner</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-white"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm text-gray-600">Phone</p>
+                                    <a href="tel:+911234567890" class="text-base md:text-lg font-semibold text-gray-800 hover:text-green-600 truncate block">+91 1234567890</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm text-gray-600">Email</p>
+                                    <a href="mailto:surag@gmail.com" class="text-base md:text-lg font-semibold text-gray-800 hover:text-green-600 truncate block">surag@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm text-gray-600">Location</p>
+                                    <p class="text-base md:text-lg font-semibold text-gray-800">123 Coffee Estate Road,<br>Chikmagalur, Karnataka</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="flex justify-center md:justify-start space-x-4 pt-4">
+                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Map -->
+                <div class="h-[300px] md:h-[500px] rounded-2xl overflow-hidden shadow-xl">
+                    <div id="map" class="w-full h-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Load header and footer
+        fetch('components/header.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('header-placeholder').innerHTML = data);
+
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+
+        // Initialize map
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('map').setView([13.3167, 75.7833], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: ' OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add marker with custom popup
+            L.marker([13.3167, 75.7833]).addTo(map)
+                .bindPopup('<strong>Paramathma Stays</strong><br>Your perfect getaway in Chikmagalur')
+                .openPopup();
+        });
+    </script>
+</body>
+</html>
