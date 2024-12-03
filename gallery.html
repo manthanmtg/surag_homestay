@@ -99,7 +99,8 @@
             border-radius: 0.5rem;
             padding: 0.25rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            gap: 0.25rem;
+            position: static;  
+            transform: none;   
         }
         .view-toggle button {
             display: inline-flex;
@@ -223,6 +224,31 @@
         }
         
         @media (max-width: 640px) {
+            .gallery-container {
+                position: relative;
+                min-height: 100vh;
+                padding-bottom: 50px; /* Space above footer */
+            }
+            .gallery-header .flex {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            .view-toggle {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 40;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+            .view-toggle button {
+                padding: 0.5rem 1.25rem;
+            }
             .gallery-content {
                 padding: 1rem 0;
             }
@@ -270,30 +296,45 @@
                 font-size: 0.875rem;
                 line-height: 1.4;
             }
-            .view-toggle {
-                position: fixed;
-                bottom: max(env(safe-area-inset-bottom, 1rem), 1rem);
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 1050;
-                background: rgba(255, 255, 255, 0.9);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            .slideshow-close {
-                top: max(env(safe-area-inset-top), 1rem);
-                right: max(env(safe-area-inset-right), 1rem);
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-                background: rgba(0, 0, 0, 0.7);
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            }
         }
     </style>
 </head>
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewToggle = document.querySelector('.view-toggle');
+            const footer = document.querySelector('#footer');
+            
+            function checkFooterCollision() {
+                // Only run in mobile view
+                if (window.innerWidth > 640) {
+                    viewToggle.style.position = 'static';
+                    viewToggle.style.bottom = 'auto';
+                    viewToggle.style.transform = 'none';
+                    return;
+                }
+                
+                const footerRect = footer.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const toggleHeight = viewToggle.offsetHeight;
+                
+                if (footerRect.top <= viewportHeight) {
+                    const distanceFromFooter = viewportHeight - footerRect.top;
+                    const newBottom = Math.min(distanceFromFooter + 20, footerRect.height - 20);
+                    viewToggle.style.position = 'fixed';
+                    viewToggle.style.bottom = newBottom + 'px';
+                } else {
+                    viewToggle.style.position = 'fixed';
+                    viewToggle.style.bottom = '20px';
+                }
+            }
+            
+            window.addEventListener('scroll', checkFooterCollision);
+            window.addEventListener('resize', checkFooterCollision);
+            // Initial check
+            checkFooterCollision();
+        });
+    </script>
     <div class="main-container">
         <!-- Header -->
         <div id="header"></div>
