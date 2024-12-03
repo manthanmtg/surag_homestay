@@ -33,7 +33,7 @@
 
                 <!-- Quiz Content -->
                 <div id="quiz-content">
-                    <div id="question-container" class="mb-6">
+                    <div id="question-container" class="mb-6 transform transition-all duration-500 opacity-100">
                         <h3 id="question-text" class="text-xl md:text-2xl font-semibold mb-6 text-gray-800"></h3>
                         <div id="options-container" class="space-y-3"></div>
                     </div>
@@ -104,28 +104,45 @@
         }
 
         function showQuestion() {
-            const questionData = selectedQuestions[currentQuestionIndex];
-            const questionKey = Object.keys(questionData)[0];
-            const [options, correctAnswer] = questionData[questionKey];
-
-            document.getElementById('question-text').textContent = `${currentQuestionIndex + 1}. ${questionKey}`;
+            // First fade out
+            const questionContainer = document.getElementById('question-container');
+            questionContainer.style.opacity = '0';
+            questionContainer.style.transform = 'translateX(20px)';
             
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'w-full text-left px-6 py-4 rounded-lg border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 transition duration-300';
-                if (userAnswers[currentQuestionIndex] === index) {
-                    button.classList.add('border-green-500', 'bg-green-50');
-                }
-                button.textContent = option;
-                button.onclick = () => selectOption(index);
-                optionsContainer.appendChild(button);
-            });
+            setTimeout(() => {
+                const questionData = selectedQuestions[currentQuestionIndex];
+                const questionKey = Object.keys(questionData)[0];
+                const [options, correctAnswer] = questionData[questionKey];
 
-            updateNavigationButtons();
-            updateProgressBar();
+                document.getElementById('question-text').textContent = `${currentQuestionIndex + 1}. ${questionKey}`;
+                
+                const optionsContainer = document.getElementById('options-container');
+                optionsContainer.innerHTML = '';
+                
+                options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'w-full text-left px-6 py-4 rounded-lg border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 transition duration-300 opacity-0 transform translate-x-4';
+                    if (userAnswers[currentQuestionIndex] === index) {
+                        button.classList.add('border-green-500', 'bg-green-50');
+                    }
+                    button.textContent = option;
+                    button.onclick = () => selectOption(index);
+                    optionsContainer.appendChild(button);
+                    
+                    // Animate each option with a slight delay
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateX(0)';
+                    }, index * 100);
+                });
+
+                // Fade in the question
+                questionContainer.style.opacity = '1';
+                questionContainer.style.transform = 'translateX(0)';
+
+                updateNavigationButtons();
+                updateProgressBar();
+            }, 300); // Wait for fade out to complete
         }
 
         function selectOption(optionIndex) {
@@ -135,9 +152,19 @@
             options.forEach(option => {
                 option.classList.remove('border-green-500', 'bg-green-50');
                 option.classList.add('border-gray-200');
+                // Add transition for smooth color change
+                option.style.transition = 'all 0.3s ease';
             });
-            options[optionIndex].classList.add('border-green-500', 'bg-green-50');
-            options[optionIndex].classList.remove('border-gray-200');
+            
+            const selectedOption = options[optionIndex];
+            selectedOption.classList.add('border-green-500', 'bg-green-50');
+            selectedOption.classList.remove('border-gray-200');
+            
+            // Add a subtle scale animation on selection
+            selectedOption.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                selectedOption.style.transform = 'scale(1)';
+            }, 200);
         }
 
         function updateNavigationButtons() {
