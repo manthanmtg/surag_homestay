@@ -320,9 +320,9 @@
                 
                 if (footerRect.top <= viewportHeight) {
                     const distanceFromFooter = viewportHeight - footerRect.top;
-                    const newBottom = Math.min(distanceFromFooter + 20, footerRect.height - 20);
+                    const newBottom = Math.min(distanceFromFooter + 40, footerRect.height); 
                     viewToggle.style.position = 'fixed';
-                    viewToggle.style.bottom = newBottom + 'px';
+                    viewToggle.style.bottom = (newBottom + 10) + 'px'; 
                 } else {
                     viewToggle.style.position = 'fixed';
                     viewToggle.style.bottom = '20px';
