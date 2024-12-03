@@ -57,7 +57,8 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 1.5rem 0;
+            padding: 1rem 0;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         }
         .gallery-content::-webkit-scrollbar {
             width: 6px;
@@ -83,6 +84,15 @@
         #footer {
             background: white;
             border-top: 1px solid #e5e7eb;
+        }
+        @media (max-width: 640px) {
+            .gallery-content {
+                padding: 0.5rem 0;
+            }
+            
+            .gallery-container {
+                background: #ffffff;
+            }
         }
     </style>
 </head>
@@ -117,7 +127,7 @@
             <div class="gallery-content">
                 <!-- Grid View -->
                 <div id="grid-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                         <!-- Gallery items will be populated by JavaScript -->
                     </div>
                 </div>

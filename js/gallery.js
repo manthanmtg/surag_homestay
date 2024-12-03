@@ -182,13 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeGallery() {
     // Populate grid view
     const gridContainer = gridView.querySelector('.grid');
-    gridContainer.innerHTML = galleryImages.map(image => `
+    gridContainer.innerHTML = galleryImages.map((image, index) => `
         <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl" 
-             data-aos="fade-up">
+             data-aos="fade-up"
+             data-aos-delay="${index * 100}">
             <div class="relative pb-[75%]">
-                <img src="${image.url}" 
+                <img src="assets/loading-placeholder.gif"
+                     data-src="${image.url}" 
                      alt="${image.title}" 
-                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                     class="lazy absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div class="absolute bottom-0 p-4">
@@ -198,6 +200,26 @@ function initializeGallery() {
             </div>
         </div>
     `).join('');
+
+    // Initialize lazy loading
+    const lazyLoadImages = () => {
+        const lazyImages = document.querySelectorAll('img.lazy');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    observer.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+    };
+
+    // Call lazy loading after a short delay to ensure DOM is ready
+    setTimeout(lazyLoadImages, 100);
 
     // Populate swiper view
     const swiperWrapper = swiperView.querySelector('.swiper-wrapper');
