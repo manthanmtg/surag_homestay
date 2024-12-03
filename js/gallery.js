@@ -162,130 +162,228 @@ const galleryImages = [
     }
 ];
 
-// Initialize view mode state
-let currentMode = 'scroll';
-let swiper = null;
-
 // DOM Elements
-const gridView = document.getElementById('grid-view');
-const swiperView = document.getElementById('swiper-view');
-const scrollModeBtn = document.getElementById('scroll-mode');
-const swipeModeBtn = document.getElementById('swipe-mode');
+let gridView, swiperView, scrollModeBtn, swipeModeBtn, swiper;
+let currentMode = 'scroll';
 
-// Initialize gallery on page load
-document.addEventListener('DOMContentLoaded', () => {
-    initializeGallery();
-    initializeViewModeToggle();
-});
+function initializeDOMElements() {
+    console.log('Initializing DOM elements...');
+    gridView = document.getElementById('grid-view');
+    swiperView = document.getElementById('swiper-view');
+    scrollModeBtn = document.getElementById('scroll-mode');
+    swipeModeBtn = document.getElementById('swipe-mode');
+
+    console.log('DOM elements found:', {
+        gridView: !!gridView,
+        swiperView: !!swiperView,
+        scrollModeBtn: !!scrollModeBtn,
+        swipeModeBtn: !!swipeModeBtn
+    });
+
+    return gridView && swiperView && scrollModeBtn && swipeModeBtn;
+}
 
 // Initialize gallery with images
 function initializeGallery() {
+    if (!initializeDOMElements()) {
+        console.error('Failed to initialize gallery - DOM elements missing');
+        return;
+    }
+
     // Populate grid view
-    const gridContainer = gridView.querySelector('.grid');
+    const gridContainer = gridView.querySelector('.gallery-grid');
     gridContainer.innerHTML = galleryImages.map((image, index) => `
-        <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl" 
-             data-aos="fade-up"
-             data-aos-delay="${index * 100}">
-            <div class="relative pb-[75%]">
-                <img src="assets/loading-placeholder.gif"
-                     data-src="${image.url}" 
-                     alt="${image.title}" 
-                     class="lazy absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div class="absolute bottom-0 p-4">
-                    <h3 class="text-white text-lg font-semibold mb-1">${image.title}</h3>
-                    <p class="text-white/90 text-sm">${image.description}</p>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    // Initialize lazy loading
-    const lazyLoadImages = () => {
-        const lazyImages = document.querySelectorAll('img.lazy');
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    observer.unobserve(img);
-                }
-            });
-        });
-
-        lazyImages.forEach(img => imageObserver.observe(img));
-    };
-
-    // Call lazy loading after a short delay to ensure DOM is ready
-    setTimeout(lazyLoadImages, 100);
-
-    // Populate swiper view
-    const swiperWrapper = swiperView.querySelector('.swiper-wrapper');
-    swiperWrapper.innerHTML = galleryImages.map(image => `
-        <div class="swiper-slide">
-            <div class="relative h-[70vh]">
-                <img src="${image.url}" 
-                     alt="${image.title}" 
-                     class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent">
-                    <div class="absolute bottom-0 p-6 text-white">
-                        <h3 class="text-xl font-bold mb-2">${image.title}</h3>
-                        <p class="text-sm opacity-90">${image.description}</p>
-                    </div>
-                </div>
+        <div class="gallery-item" data-aos="fade-up" data-aos-delay="${index * 50}">
+            <img src="${image.url}" 
+                 alt="${image.title}"
+                 loading="lazy">
+            <div class="gallery-item-overlay">
+                <h3 class="text-lg font-semibold mb-1">${image.title}</h3>
+                <p class="text-sm opacity-90">${image.description}</p>
             </div>
         </div>
     `).join('');
 
     // Initialize Swiper
+    initializeSwiper();
+
+    // Add close button functionality
+    const closeButton = document.querySelector('.slideshow-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            setViewMode('scroll');
+        });
+    }
+}
+
+function initializeSwiper() {
+    console.log('Initializing Swiper...');
+    
+    // Destroy existing swiper instance if it exists
+    if (swiper) {
+        swiper.destroy(true, true);
+    }
+
+    // Clear and populate swiper slides
+    const swiperWrapper = swiperView.querySelector('.swiper-wrapper');
+    swiperWrapper.innerHTML = galleryImages.map(image => `
+        <div class="swiper-slide">
+            <div class="swiper-zoom-container">
+                <img src="${image.url}" 
+                     alt="${image.title}"
+                     class="swiper-image">
+            </div>
+            <div class="slide-info">
+                <h3 class="text-xl font-bold">${image.title}</h3>
+                <p>${image.description}</p>
+            </div>
+        </div>
+    `).join('');
+
+    // Initialize new Swiper instance
     swiper = new Swiper('.gallery-swiper', {
+        init: true,
         slidesPerView: 1,
         spaceBetween: 30,
+        centeredSlides: true,
         loop: true,
+        grabCursor: true,
+        zoom: {
+            maxRatio: 3,
+            minRatio: 1
+        },
+        keyboard: {
+            enabled: true,
+            onlyInViewport: false
+        },
         pagination: {
             el: '.swiper-pagination',
-            clickable: true
+            clickable: true,
+            dynamicBullets: true
         },
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
-        },
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
         }
     });
+
+    console.log('Swiper initialized:', swiper);
+}
+
+function openSlideshow(index) {
+    console.log('Opening slideshow at index:', index);
+    setViewMode('swipe');
+    
+    // Wait for the transition to complete
+    setTimeout(() => {
+        if (swiper) {
+            swiper.update();
+            // Add 1 to account for the loop mode
+            swiper.slideTo(index + 1, 0);
+        }
+    }, 100);
 }
 
 // Initialize view mode toggle functionality
 function initializeViewModeToggle() {
-    scrollModeBtn.addEventListener('click', () => setViewMode('scroll'));
-    swipeModeBtn.addEventListener('click', () => setViewMode('swipe'));
+    console.log('Initializing view mode toggle...');
+    
+    if (!scrollModeBtn || !swipeModeBtn) {
+        console.error('Toggle buttons not found');
+        return;
+    }
+
+    function handleScrollMode() {
+        console.log('Grid view clicked');
+        setViewMode('scroll');
+    }
+
+    function handleSwipeMode() {
+        console.log('Slideshow view clicked');
+        setViewMode('swipe');
+    }
+
+    // Remove existing listeners if any
+    scrollModeBtn.removeEventListener('click', handleScrollMode);
+    swipeModeBtn.removeEventListener('click', handleSwipeMode);
+
+    // Add click listeners
+    scrollModeBtn.addEventListener('click', handleScrollMode);
+    swipeModeBtn.addEventListener('click', handleSwipeMode);
+    
+    console.log('View mode toggle initialized');
+    
+    // Set initial mode
+    setViewMode('scroll');
 }
 
 // Set view mode (scroll/swipe)
 function setViewMode(mode) {
+    console.log('Setting view mode:', mode);
     currentMode = mode;
     
-    // Update button states
-    scrollModeBtn.classList.toggle('bg-green-600', mode === 'scroll');
-    scrollModeBtn.classList.toggle('text-white', mode === 'scroll');
-    scrollModeBtn.classList.toggle('bg-gray-200', mode !== 'scroll');
-    scrollModeBtn.classList.toggle('text-gray-700', mode !== 'scroll');
-    
-    swipeModeBtn.classList.toggle('bg-green-600', mode === 'swipe');
-    swipeModeBtn.classList.toggle('text-white', mode === 'swipe');
-    swipeModeBtn.classList.toggle('bg-gray-200', mode !== 'swipe');
-    swipeModeBtn.classList.toggle('text-gray-700', mode !== 'swipe');
-    
-    // Show/hide appropriate view
-    gridView.classList.toggle('hidden', mode === 'swipe');
-    swiperView.classList.toggle('hidden', mode === 'scroll');
-    
-    // Update swiper if switching to swipe mode
-    if (mode === 'swipe' && swiper) {
-        swiper.update();
+    if (mode === 'swipe') {
+        // Make sure Swiper is initialized
+        if (!swiper) {
+            initializeSwiper();
+        } else {
+            swiper.update();
+        }
+        
+        // Show slideshow
+        gridView.classList.add('hidden');
+        swiperView.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        // Hide header in mobile view
+        const header = document.getElementById('header');
+        if (header && window.innerWidth <= 640) {
+            header.style.display = 'none';
+        }
+    } else {
+        // Show grid view
+        gridView.classList.remove('hidden');
+        swiperView.classList.add('hidden');
+        document.body.style.overflow = '';
+        
+        // Show header
+        const header = document.getElementById('header');
+        if (header) {
+            header.style.display = '';
+        }
     }
+
+    // Update button states
+    scrollModeBtn.classList.toggle('active', mode === 'scroll');
+    swipeModeBtn.classList.toggle('active', mode === 'swipe');
 }
+
+// Initialize gallery on page load
+window.addEventListener('load', function() {
+    console.log('Page loaded, initializing gallery...');
+    if (initializeDOMElements()) {
+        initializeGallery();
+        initializeViewModeToggle();
+    } else {
+        console.error('Failed to initialize gallery - required elements not found');
+    }
+});
+
+// Re-initialize on dynamic content changes
+document.addEventListener('DOMContentLoaded', function() {
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                console.log('DOM changed, re-initializing...');
+                if (initializeDOMElements()) {
+                    initializeViewModeToggle();
+                }
+            }
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+});
